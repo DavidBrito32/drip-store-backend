@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { executeSQL } from "../database/database_connection";
 
 export const brands = express.Router();
-const tabela = "brands";
+const tabela: string = "brands";
 
 brands.get("/", async (req: Request, res: Response) => {
 	try {
@@ -32,7 +32,7 @@ brands.post("/", async (req: Request, res: Response) => {
 			res.statusCode = 400;
 			throw new Error("'brand_name' - Precisa ser uma String.");
 		}
-
+		
 		if(brand_status){
 			if(typeof brand_status !== "number" ){
 				res.statusCode = 400;

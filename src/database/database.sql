@@ -1,4 +1,4 @@
--- Active: 1702559102575@@127.0.0.1@3306@Digital_Store
+-- Active: 1703000615609@@127.0.0.1@3306@digital_store
 INSERT INTO
     brands (brand_name)
 VALUES
@@ -18,7 +18,7 @@ CREATE TABLE
         CONSTRAINT id_pk PRIMARY KEY (id)
     );
 
-DESC products;
+DESC banners;
 
 CREATE TABLE
     IF NOT EXISTS categorys (
@@ -50,10 +50,13 @@ CREATE TABLE
 
 SHOW TABLES;
 
-ALTER TABLE products ADD FOREIGN KEY (product_category) REFERENCES categorys (id)
+desc products;
+
+ALTER TABLE products MODIFY product_category BIGINT NOT NULL;
+ALTER TABLE products ADD FOREIGN KEY (product_category) REFERENCES categorys (id);
+
 SELECT
-    categorys.name,
-    products.product_name
+    *
 FROM
     products
     INNER JOIN categorys ON products.product_category = categorys.id;

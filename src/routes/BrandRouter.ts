@@ -7,8 +7,8 @@ const tabela: string = "brands";
 brands.get("/", async (req: Request, res: Response) => {
 	try {
 		const listarBrands = await executeSQL(`SELECT * FROM ${tabela}`);
-		console.log(listarBrands);
 		res.status(200).send(await listarBrands);
+
 	} catch (error) {
 		const status = res.statusCode;
 		if (status === 200) {
@@ -60,7 +60,7 @@ brands.put("/:id", async (req: Request, res: Response) => {
 	try{
 		const idToEdit: string = req.params.id;
 		//primeiro preciso saber se existe no banco
-		const existe = await executeSQL(`SELECT * FROM ${tabela} WHERE brand_id = ${idToEdit}`);
+		const existe = await executeSQL(`SELECT * FROM ${tabela} WHERE id = ${idToEdit}`);
 
 		if(JSON.stringify(existe) === "[]"){
 			res.statusCode = 404;
@@ -82,7 +82,7 @@ brands.put("/:id", async (req: Request, res: Response) => {
 				res.statusCode = 400;
 				throw new Error("'brand_status' - Deve ser uma string");
 			}
-			await executeSQL(`UPDATE ${tabela} SET brand_name = '${brand_name}', brand_status = '${brand_status}' WHERE brand_id = ${idToEdit};`);
+			await executeSQL(`UPDATE ${tabela} SET brand_name = '${brand_name}', brand_status = '${brand_status}', updated_at = CURRENT_TIMESTAMP() WHERE id = ${idToEdit};`);
 			
 			res.status(200).send("Brand Atualizada com sucesso!");
 		}
@@ -91,7 +91,7 @@ brands.put("/:id", async (req: Request, res: Response) => {
 				res.statusCode = 400;
 				throw new Error("'brand_name' - Deve ser uma string");
 			}
-			await executeSQL(`UPDATE ${tabela} SET brand_name = '${brand_name}' WHERE brand_id = ${idToEdit};`);
+			await executeSQL(`UPDATE ${tabela} SET brand_name = '${brand_name}', updated_at = CURRENT_TIMESTAMP() WHERE id = ${idToEdit};`);
 			
 			res.status(200).send("Brand Atualizada com sucesso!");
 		}
@@ -100,7 +100,7 @@ brands.put("/:id", async (req: Request, res: Response) => {
 				res.statusCode = 400;
 				throw new Error("'brand_status' - Deve ser uma string");
 			}
-			await executeSQL(`UPDATE ${tabela} SET brand_status = '${brand_status}' WHERE brand_id = ${idToEdit};`);
+			await executeSQL(`UPDATE ${tabela} SET brand_status = '${brand_status}', updated_at = CURRENT_TIMESTAMP() WHERE id = ${idToEdit};`);
 			
 			res.status(200).send("Brand Atualizada com sucesso!");
 		}
@@ -120,14 +120,14 @@ brands.delete("/:id", async (req: Request, res: Response) =>{
 	try{
 		const idToDelete: string = req.params.id;
 		//primeiro preciso saber se existe no banco
-		const existe = await executeSQL(`SELECT * FROM ${tabela} WHERE brand_id = ${idToDelete}`);
+		const existe = await executeSQL(`SELECT * FROM ${tabela} WHERE id = ${idToDelete}`);
 
 		if(JSON.stringify(existe) === "[]"){
 			res.statusCode = 404;
 			throw new Error("'id' - Não encontrado");
 		}
 
-		await executeSQL(`DELETE FROM ${tabela} WHERE brand_id = ${idToDelete};`);
+		await executeSQL(`DELETE FROM ${tabela} WHERE id = ${idToDelete};`);
 		res.status(200).send("Deletado com sucesso");
 
 	}catch (error){

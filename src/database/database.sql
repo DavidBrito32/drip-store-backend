@@ -145,3 +145,20 @@ DROP TABLE brands;
 DESC brands;
 
 
+
+CREATE TABLE IF NOT EXISTS users(
+    user_id BIGINT NOT NULL AUTO_INCREMENT UNIQUE,
+    user_name VARCHAR(50) NOT NULL,
+    user_email VARCHAR(100) NOT NULL UNIQUE,
+    user_password VARCHAR(50) NOT NULL,
+    user_level INTEGER NOT NULL DEFAULT 1,
+    CONSTRAINT user_id_pk PRIMARY KEY (user_id)
+);
+
+DESC products;
+
+ALTER TABLE categorys MODIFY updated_at TEXT NULL;
+
+SHOW TABLES;
+
+SELECT * FROM users;

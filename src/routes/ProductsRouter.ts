@@ -37,7 +37,7 @@ Products.get("/", async (req: Request, res: Response) => {
 Products.get("/:id", async (req: Request, res: Response) =>{
 	try{
 		const idToSearch: string = req.params.id;
-
+		
 		const listarProduct = await executeSQL(`SELECT products.*, categorys.name AS category_name, brands.brand_name FROM ${tabela} INNER JOIN categorys ON products.product_category = categorys.id INNER JOIN brands ON products.product_brand = brands.id WHERE product_id = ${idToSearch};`);
 		if(JSON.stringify(listarProduct) === "[]"){
 			res.statusCode = 200;
